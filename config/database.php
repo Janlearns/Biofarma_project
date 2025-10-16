@@ -1,14 +1,16 @@
 <?php
-class Database {
+class Database
+{
     private $host = 'localhost';
-    private $db_name = 'u909857501_php_biovet';
-    private $username = 'u909857501_php_biovet';
-    private $password = 'Lupa1234567+';
+    private $db_name = 'marketplace_hewan';
+    private $username = 'root';
+    private $password = '';
     private $conn;
 
-    public function getConnection() {
+    public function getConnection()
+    {
         $this->conn = null;
-        
+
         try {
             $this->conn = new PDO(
                 "mysql:host=" . $this->host . ";dbname=" . $this->db_name,
@@ -17,16 +19,17 @@ class Database {
             );
             $this->conn->exec("set names utf8");
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $exception) {
+        } catch (PDOException $exception) {
             echo "Connection error: " . $exception->getMessage();
         }
-        
+
         return $this->conn;
     }
 }
 
 // Helper functions
-function sanitize_input($data) {
+function sanitize_input($data)
+{
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
@@ -35,28 +38,41 @@ function sanitize_input($data) {
 
 
 
-function redirect($location) {
+function redirect($location)
+{
     header("Location: " . $location);
     exit();
 }
 
-function generate_token($length = 32) {
+function generate_token($length = 32)
+{
     return bin2hex(random_bytes($length));
 }
 
-function format_date($date) {
+function format_date($date)
+{
     return date('d-m-Y', strtotime($date));
 }
 
-function get_roman_month($month) {
+function get_roman_month($month)
+{
     $romans = [
-        1 => 'I', 2 => 'II', 3 => 'III', 4 => 'IV',
-        5 => 'V', 6 => 'VI', 7 => 'VII', 8 => 'VIII',
-        9 => 'IX', 10 => 'X', 11 => 'XI', 12 => 'XII'
+        1 => 'I',
+        2 => 'II',
+        3 => 'III',
+        4 => 'IV',
+        5 => 'V',
+        6 => 'VI',
+        7 => 'VII',
+        8 => 'VIII',
+        9 => 'IX',
+        10 => 'X',
+        11 => 'XI',
+        12 => 'XII'
     ];
     return $romans[$month];
 }
-function format_datetime($datetime) {
+function format_datetime($datetime)
+{
     return date('d-m-Y H:i:s', strtotime($datetime));
 }
-?>
