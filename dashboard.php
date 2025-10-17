@@ -252,7 +252,7 @@ if (isset($_POST['book_animal'])) {
                     <p><strong>No Karantina:</strong> <?php echo htmlspecialchars($search_result['no_karantina']); ?></p>
                     <p><strong>Hewan:</strong> <?php echo htmlspecialchars($search_result['nama_hewan']); ?></p>
                     <p><strong>Jumlah Hewan:</strong> <?php echo htmlspecialchars($search_result['jumlah_hewan']); ?> ekor</p>
-                    <p><strong>Kandang:</strong> <?php echo htmlspecialchars($search_result['nomor_kandang']); ?></p>
+                    <p><strong>Cage:</strong> <?php echo htmlspecialchars($search_result['nomor_kandang']); ?></p>
                     <p><strong>Tanggal Datang:</strong> <?php echo format_date($search_result['tanggal_datang']); ?></p>
                     <p><strong>Masa Uji:</strong> <?php echo format_date($search_result['tanggal_datang']); ?> - <?php echo format_date($search_result['tanggal_keluar']); ?></p>
                     <p><strong>Jenis Uji/Experimen:</strong> <?php echo htmlspecialchars($search_result['uji']); ?></p>
@@ -285,7 +285,7 @@ if (isset($_POST['book_animal'])) {
                     <p><strong>No Karantina:</strong> <?php echo htmlspecialchars($search_result_admin['no_karantina'] ?? ''); ?></p>
                     <p><strong>Hewan:</strong> <?php echo htmlspecialchars($search_result_admin['nama_hewan'] ?? ''); ?></p>
                     <p><strong>Jumlah Hewan:</strong> <?php echo htmlspecialchars($search_result_admin['jumlah_hewan'] ?? ''); ?> ekor</p>
-                    <p><strong>Kandang:</strong> <?php echo htmlspecialchars($search_result_admin['nomor_kandang'] ?? ''); ?></p>
+                    <p><strong>Cage:</strong> <?php echo htmlspecialchars($search_result_admin['nomor_kandang'] ?? ''); ?></p>
                     <p><strong>Tanggal Datang:</strong> <?php echo format_date($search_result_admin['tanggal_datang'] ?? ''); ?></p>
                     <p><strong>Masa Uji:</strong> <?php echo format_date($search_result_admin['tanggal_datang'] ?? '') . ' - ' . format_date($search_result_admin['tanggal_keluar'] ?? ''); ?></p>
                     <p><strong>Jenis Uji/Experimen:</strong> <?php echo htmlspecialchars($search_result_admin['uji'] ?? ''); ?></p>
@@ -358,7 +358,7 @@ if (isset($_POST['book_animal'])) {
                                 </div>
                                 <div class="stat">
                                     <span class="stat-icon">📦</span>
-                                    <span>Kandang: <?php echo $animal['total_kandang']; ?></span>
+                                    <span>Cage: <?php echo $animal['total_kandang']; ?></span>
                                 </div>
                                 <div class="stat">
                                     <span class="stat-icon">🐾</span>
@@ -420,7 +420,7 @@ if (isset($_POST['book_animal'])) {
                                 <option value="<?php echo $animal['id']; ?>">
                                     <?php echo htmlspecialchars($animal['nama_hewan']); ?>
                                     <?php if ($auth->is_admin()): ?>
-                                        (Sisa: <?php echo $animal['total_sisa_slot'] ?? $animal['total_slot']; ?> slot)
+                                        (Sisa: <?php echo $animal['total_sisa_slot'] ?? $animal['total_slot']; ?> RKAP)
                                     <?php endif; ?>
                                 </option>
                             <?php endif; ?>
@@ -514,28 +514,28 @@ if (isset($_POST['book_animal'])) {
                 </div>
 
                 <div class="form-group">
-                    <label><strong>Total Kandang:</strong></label>
-                    <p>${data.animal.total_kandang} kandang</p>
+                    <label><strong>Total Cage:</strong></label>
+                    <p>${data.animal.total_kandang} Cage</p>
                 </div>
 
                 <div class="form-group">
-                    <label><strong>Kapasitas per Kandang:</strong></label>
+                    <label><strong>Kapasitas per Cage:</strong></label>
                     <p>${data.animal.kapasitas_per_kandang} ekor</p>
                 </div>
 
                 <div class="form-group">
-                    <label><strong>Total Slot:</strong></label>
-                    <p>${data.animal.total_slot} slot</p>
+                    <label><strong>Total RKAP:</strong></label>
+                    <p>${data.animal.total_slot} RKAP</p>
                 </div>
                 <div class="form-group">
                     <label><strong>RKAP
                             :</strong></label>
-                    <p>${data.animal.total_terisi || 0} slot</p>
+                    <p>${data.animal.total_terisi || 0} RKAP</p>
                 </div>
 
                 <div class="form-group">
-                    <label><strong>Slot Tersisa:</strong></label>
-                    <p>${data.animal.total_sisa_slot || data.animal.total_slot} slot</p>
+                    <label><strong>RKAP tersisa:</strong></label>
+                    <p>${data.animal.total_sisa_slot || data.animal.total_slot} RKAP</p>
                 </div>
 
                 <div style="margin-top: 20px;">
@@ -629,28 +629,28 @@ if (isset($_POST['book_animal'])) {
                             </div>
                             
                             <div class="form-group">
-                                <label><strong>Total Kandang:</strong></label>
-                                <p>${data.animal.total_kandang} kandang</p>
+                                <label><strong>Total Cage:</strong></label>
+                                <p>${data.animal.total_kandang} Cage</p>
                             </div>
                             
                             <div class="form-group">
-                                <label><strong>Kapasitas per Kandang:</strong></label>
+                                <label><strong>Kapasitas per Cage:</strong></label>
                                 <p>${data.animal.kapasitas_per_kandang} ekor</p>
                             </div>
                             
                             <div class="form-group">
-                                <label><strong>Total Slot:</strong></label>
-                                <p>${data.animal.total_slot} slot</p>
+                                <label><strong>Total RKAPstrong></label>
+                                <p>${data.animal.total_slot} RKAP</p>
                             </div>
                             
                             <div class="form-group">
-                                <label><strong>Slot Terisi:</strong></label>
-                                <p>${data.animal.total_terisi || 0} slot</p>
+                                <label><strong>RKAP Terisi:</strong></label>
+                                <p>${data.animal.total_terisi || 0} RKAP</p>
                             </div>
                             
                             <div class="form-group">
-                                <label><strong>Slot Tersisa:</strong></label>
-                                <p>${data.animal.total_sisa_slot || data.animal.total_slot} slot</p>
+                                <label><strong>RKAP Tersisa:</strong></label>
+                                <p>${data.animal.total_sisa_slot || data.animal.total_slot} RKAP</p>
                             </div>
                             
                         `;
