@@ -77,7 +77,7 @@ $html .= '<div class="secondary-header">';
 $html .= htmlspecialchars($secondary_header_text);
 $html .= '</div>';
 
-// Tabel Pertama: Rekap Pesanan
+
 // Tabel Pertama: Rekap Pesanan
 $divisi_count = count($report_summary['divisi_columns']);
 $html .= '<table>';
