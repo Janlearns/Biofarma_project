@@ -931,7 +931,7 @@ class AnimalHandler
             $email_body .= "No Karantina: " . htmlspecialchars($booking_data['no_karantina']) . "\n";
             $email_body .= "Hewan: " . htmlspecialchars($booking_data['nama_hewan']) . "\n";
             $email_body .= "Jumlah Hewan: " . htmlspecialchars($booking_data['jumlah_hewan']) . " ekor\n";
-            $email_body .= "Kandang: " . htmlspecialchars($booking_data['nomor_kandang']) . "\n";
+            $email_body .= "Cage: " . htmlspecialchars($booking_data['nomor_kandang']) . "\n";
             $email_body .= "Tanggal Datang: " . format_date($booking_data['tanggal_datang']) . "\n";
             $email_body .= "Masa karantina: " . format_date($booking_data['tanggal_datang']) . " - " . format_date($booking_data['tanggal_keluar']) . "\n";
             $email_body .= "Jenis Uji/Experimen: " . htmlspecialchars($booking_data['uji']) . "\n";

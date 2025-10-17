@@ -129,8 +129,8 @@ $animals = $animal_handler->get_all_animals();
                         <tr>
                             <th style="padding: 15px; text-align: left; border-bottom: 1px solid #eee;">Nama Hewan</th>
                             <th style="padding: 15px; text-align: left; border-bottom: 1px solid #eee;">Kode</th>
-                            <th style="padding: 15px; text-align: center; border-bottom: 1px solid #eee;">Total Kandang</th>
-                            <th style="padding: 15px; text-align: center; border-bottom: 1px solid #eee;">Kapasitas/Kandang</th>
+                            <th style="padding: 15px; text-align: center; border-bottom: 1px solid #eee;">Total Cage</th>
+                            <th style="padding: 15px; text-align: center; border-bottom: 1px solid #eee;">Kapasitas/Cage</th>
                             <th style="padding: 15px; text-align: center; border-bottom: 1px solid #eee;">Total Kapasitas</th>
                             <th style="padding: 15px; text-align: center; border-bottom: 1px solid #eee;">Terisi</th>
                             <th style="padding: 15px; text-align: center; border-bottom: 1px solid #eee;">Sisa</th>
@@ -196,7 +196,7 @@ $animals = $animal_handler->get_all_animals();
                                             ✏️ Edit
                                         </button>
                                         <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 14px;" onclick="viewKandangStatus(<?php echo $animal['id']; ?>)">
-                                            📊 Status Kandang
+                                            📊 Status Cage
                                         </button>
                                         <button class="btn btn-danger" style="padding: 6px 12px; font-size: 14px;" onclick="confirmDelete(<?php echo $animal['id']; ?>)">
                                             🗑️ Hapus
@@ -228,12 +228,12 @@ $animals = $animal_handler->get_all_animals();
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div class="form-group">
-                        <label for="total_kandang">Total Kandang</label>
+                        <label for="total_kandang">Total Cage</label>
                         <input type="number" name="total_kandang" id="total_kandang" required min="1" placeholder="5">
                     </div>
 
                     <div class="form-group">
-                        <label for="kapasitas_per_kandang">Kapasitas per Kandang</label>
+                        <label for="kapasitas_per_kandang">Kapasitas per Cage</label>
                         <input type="number" name="kapasitas_per_kandang" id="kapasitas_per_kandang" required min="1" placeholder="4">
                     </div>
                 </div>
@@ -241,7 +241,7 @@ $animals = $animal_handler->get_all_animals();
                 <div class="form-group">
                     <label>Total Kapasitas</label>
                     <div id="total_slot_preview" style="padding: 12px; background: #f8f9fa; border-radius: 8px; color: #666;">
-                        Total kapasitas akan dihitung otomatis: Total Kandang × Kapasitas per Kandang
+                        Total kapasitas akan dihitung otomatis: Total Cage × Kapasitas per Cage
                     </div>
                 </div>
 
@@ -266,7 +266,7 @@ $animals = $animal_handler->get_all_animals();
     <div class="modal" id="kandangModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title" id="kandang-title">Status Kandang</h2>
+                <h2 class="modal-title" id="kandang-title">Status Cage</h2>
                 <button class="close-btn" onclick="closeModal('kandangModal')">&times;</button>
             </div>
 
@@ -307,13 +307,13 @@ $animals = $animal_handler->get_all_animals();
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                     <div class="form-group">
-                        <label for="edit_total_kandang">Total Kandang</label>
+                        <label for="edit_total_kandang">Total Cage</label>
                         <input type="number" name="total_kandang" id="edit_total_kandang" required min="1">
                         <small id="current_total_kandang" style="color: #666; font-size: 12px;"></small>
                     </div>
 
                     <div class="form-group">
-                        <label for="edit_kapasitas_per_kandang">Kapasitas per Kandang</label>
+                        <label for="edit_kapasitas_per_kandang">Kapasitas per Cage</label>
                         <input type="number" name="kapasitas_per_kandang" id="edit_kapasitas_per_kandang" required min="1">
                         <small id="current_kapasitas_per_kandang" style="color: #666; font-size: 12px;"></small>
                     </div>
@@ -384,8 +384,8 @@ $animals = $animal_handler->get_all_animals();
                         let kandangHtml = `
                         <div style="margin-bottom: 20px;">
                             <h4>Informasi Umum</h4>
-                            <p><strong>Total Kandang:</strong> ${animal.total_kandang}</p>
-                            <p><strong>Kapasitas per Kandang:</strong> ${animal.kapasitas_per_kandang}</p>
+                            <p><strong>Total Cage> ${animal.total_kandang}</p>
+                            <p><strong>Kapasitas per Cage:</strong> ${animal.kapasitas_per_kandang}</p>
                             <p><strong>Total Kapasitas:</strong> ${animal.total_slot}</p>
                             <p><strong>Total Terisi:</strong> ${animal.total_terisi || 0}</p>
                             <p><strong>Sisa:</strong> ${animal.total_sisa_slot || animal.total_slot}</p>
@@ -407,12 +407,12 @@ $animals = $animal_handler->get_all_animals();
                             });
 
                     } else {
-                        alert('Gagal memuat status kandang');
+                        alert('Gagal memuat status Cage');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Terjadi kesalahan saat memuat status kandang');
+                    alert('Terjadi kesalahan saat memuat status Cage');
                 });
         }
 
@@ -462,7 +462,7 @@ $animals = $animal_handler->get_all_animals();
         }
 
         function confirmDelete(animalId) {
-            if (confirm("Apakah Anda yakin ingin menghapus hewan ini? Ini akan menghapus semua kandang dan data terkait.")) {
+            if (confirm("Apakah Anda yakin ingin menghapus hewan ini? Ini akan menghapus semua Cage dan data terkait.")) {
                 window.location.href = 'delete_animal.php?id=' + animalId;
             }
         }
@@ -478,7 +478,7 @@ $animals = $animal_handler->get_all_animals();
                         document.getElementById('edit_total_kandang').value = animal.total_kandang;
                         document.getElementById('edit_kapasitas_per_kandang').value = animal.kapasitas_per_kandang;
                         document.getElementById('edit_deskripsi').value = animal.deskripsi;
-                        document.getElementById('current_total_kandang').textContent = `Kandang saat ini: ${animal.total_kandang}`;
+                        document.getElementById('current_total_kandang').textContent = `Cage saat ini: ${animal.total_kandang}`;
                         document.getElementById('current_kapasitas_per_kandang').textContent = `Kapasitas saat ini: ${animal.kapasitas_per_kandang}`;
                         document.getElementById('editAnimalModal').classList.add('show');
                     } else {

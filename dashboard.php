@@ -528,8 +528,7 @@ if (isset($_POST['book_animal'])) {
                     <p>${data.animal.total_slot} RKAP</p>
                 </div>
                 <div class="form-group">
-                    <label><strong>RKAP
-                            :</strong></label>
+                    <label><strong>RKAP:</strong></label>
                     <p>${data.animal.total_terisi || 0} RKAP</p>
                 </div>
 
@@ -639,7 +638,7 @@ if (isset($_POST['book_animal'])) {
                             </div>
                             
                             <div class="form-group">
-                                <label><strong>Total RKAPstrong></label>
+                                <label><strong>Total RKAP</strong></label>
                                 <p>${data.animal.total_slot} RKAP</p>
                             </div>
                             
