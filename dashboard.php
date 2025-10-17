@@ -362,7 +362,7 @@ if (isset($_POST['book_animal'])) {
                                 </div>
                                 <div class="stat">
                                     <span class="stat-icon">🐾</span>
-                                    <span>Terisi: <?php echo $animal['total_terisi'] ?? 0; ?></span>
+                                    <span>Realisasi: <?php echo $animal['total_terisi'] ?? 0; ?></span>
                                 </div>
                             </div>
 
@@ -376,11 +376,13 @@ if (isset($_POST['book_animal'])) {
                                 <button class="order-btn" onclick="showOrderModal(<?php echo $animal['id']; ?>)">
                                     Order
                                 </button>
-                                <div style="text-align: right;">
-                                    <div style="color: #28a745; font-weight: bold;">
-                                        Sisa: <?php echo $animal['total_sisa_slot'] ?? $animal['total_slot']; ?> slot
+                                <?php if ($auth->is_admin()): ?>
+                                    <div style="text-align: right;">
+                                        <div style="color: #28a745; font-weight: bold;">
+                                            Sisa: <?php echo $animal['total_sisa_slot'] ?? $animal['total_slot']; ?> RKAP
+                                        </div>
                                     </div>
-                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -417,7 +419,9 @@ if (isset($_POST['book_animal'])) {
                             <?php if (($animal['total_sisa_slot'] ?? $animal['total_slot']) > 0): ?>
                                 <option value="<?php echo $animal['id']; ?>">
                                     <?php echo htmlspecialchars($animal['nama_hewan']); ?>
-                                    (Sisa: <?php echo $animal['total_sisa_slot'] ?? $animal['total_slot']; ?> slot)
+                                    <?php if ($auth->is_admin()): ?>
+                                        (Sisa: <?php echo $animal['total_sisa_slot'] ?? $animal['total_slot']; ?> slot)
+                                    <?php endif; ?>
                                 </option>
                             <?php endif; ?>
                         <?php endforeach; ?>
@@ -523,9 +527,9 @@ if (isset($_POST['book_animal'])) {
                     <label><strong>Total Slot:</strong></label>
                     <p>${data.animal.total_slot} slot</p>
                 </div>
-
                 <div class="form-group">
-                    <label><strong>Slot Terisi:</strong></label>
+                    <label><strong>RKAP
+                            :</strong></label>
                     <p>${data.animal.total_terisi || 0} slot</p>
                 </div>
 

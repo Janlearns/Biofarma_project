@@ -78,6 +78,7 @@ $html .= htmlspecialchars($secondary_header_text);
 $html .= '</div>';
 
 // Tabel Pertama: Rekap Pesanan
+// Tabel Pertama: Rekap Pesanan
 $divisi_count = count($report_summary['divisi_columns']);
 $html .= '<table>';
 $html .= '<tr>';
@@ -87,19 +88,39 @@ $html .= '<td colspan="' . $divisi_count . '" class="bold header-cell">Divisi/Ba
 $html .= '</tr>';
 $html .= '<tr>';
 foreach ($report_summary['divisi_columns'] as $divisi_name) {
-    $html .= '<td class="bold">' . htmlspecialchars($divisi_name) . '</td>';
+$html .= '<td class="bold">' . htmlspecialchars($divisi_name) . '</td>';
 }
 $html .= '</tr>';
+
+// Inisialisasi variabel total
+$grand_total_hewan = 0;
+$total_per_divisi = array_fill_keys($report_summary['divisi_columns'], 0);
+
 $no = 1;
 foreach ($report_summary['animals'] as $animal_data) {
-    $html .= '<tr>';
-    $html .= '<td class="text-left">' . $no++ . '. ' . htmlspecialchars($animal_data['nama_hewan']) . '</td>';
-    $html .= '<td>' . htmlspecialchars($animal_data['total_per_animal']) . ' ekor</td>';
-    foreach ($report_summary['divisi_columns'] as $divisi_name) {
-        $html .= '<td>' . (isset($animal_data['divisi_counts'][$divisi_name]) ? htmlspecialchars($animal_data['divisi_counts'][$divisi_name]) : '0') . '</td>';
-    }
-    $html .= '</tr>';
+$hewan_total = $animal_data['total_per_animal'];
+$grand_total_hewan += $hewan_total;
+
+$html .= '<tr>';
+$html .= '<td class="text-left">' . $no++ . '. ' . htmlspecialchars($animal_data['nama_hewan']) . '</td>';
+$html .= '<td>' . htmlspecialchars($hewan_total) . ' ekor</td>';
+foreach ($report_summary['divisi_columns'] as $divisi_name) {
+$divisi_count_val = $animal_data['divisi_counts'][$divisi_name] ?? 0;
+$total_per_divisi[$divisi_name] += $divisi_count_val;
+$html .= '<td>' . htmlspecialchars($divisi_count_val) . '</td>';
 }
+$html .= '</tr>';
+}
+
+// Tambahkan baris TOTAL
+$html .= '<tr>';
+$html .= '<td class="bold text-left header-cell">TOTAL</td>';
+$html .= '<td class="bold">' . htmlspecialchars($grand_total_hewan) . ' ekor</td>';
+foreach ($report_summary['divisi_columns'] as $divisi_name) {
+$html .= '<td class="bold">' . htmlspecialchars($total_per_divisi[$divisi_name]) . '</td>';
+}
+$html .= '</tr>';
+
 $html .= '</table>';
 
 $html .= '<div style="page-break-before: always;"></div>';
@@ -108,27 +129,60 @@ $html .= '<div class="secondary-header">';
 $html .= htmlspecialchars($third_header_text);
 $html .= '</div>';
 
+
 // Tabel Kedua: Uji vs Hewan
 $html .= '<table>';
 $html .= '<tr>';
 $html .= '<td rowspan="2" class="bold text-left header-cell">Produk</td>';
-$html .= '<td colspan="' . count($all_hewan_unfiltered) . '" class="bold header-cell">Hewan</td>';
+// Tambah colspan 1 untuk kolom Total
+$html .= '<td colspan="' . (count($all_hewan_unfiltered) + 1) . '" class="bold header-cell">Hewan</td>';
 $html .= '</tr>';
 $html .= '<tr>';
 foreach ($all_hewan_unfiltered as $hewan) {
-    $html .= '<td class="bold">' . htmlspecialchars($hewan['nama_hewan']) . '</td>';
+$html .= '<td class="bold">' . htmlspecialchars($hewan['nama_hewan']) . '</td>';
 }
-$no_uji = 1;
+// Tambahkan kolom Total
+$html .= '<td class="bold">Total</td>';
 $html .= '</tr>';
+
+$no_uji = 1;
+// Inisialisasi variabel total untuk kolom hewan (total di bagian bawah)
+$grand_total_per_hewan = array_fill_keys(array_column($all_hewan_unfiltered, 'id'), 0);
+$grand_total_keseluruhan = 0; // Total dari semua baris Total
+
 foreach ($uji_hewan_summary as $uji_name => $uji_data) {
-    $html .= '<tr>';
-    $html .= '<td class="text-left">' . $no_uji++ . '. ' . htmlspecialchars($uji_name) . '</td>';
-    foreach ($all_hewan_unfiltered as $hewan) {
-        $total = $uji_data['hewan_counts'][$hewan['id']]['total_hewan'] ?? 0;
-        $html .= '<td>' . $total . '</td>';
-    }
-    $html .= '</tr>';
+$total_per_uji = 0; // Inisialisasi total untuk baris saat ini (Total per Produk)
+$html .= '<tr>';
+$html .= '<td class="text-left">' . $no_uji++ . '. ' . htmlspecialchars($uji_name) . '</td>';
+
+foreach ($all_hewan_unfiltered as $hewan) {
+$total = $uji_data['hewan_counts'][$hewan['id']]['total_hewan'] ?? 0;
+$html .= '<td>' . $total . '</td>';
+ // Update total untuk baris (Produk)
+$total_per_uji += $total;
+
+// Update total untuk kolom (Hewan)
+$grand_total_per_hewan[$hewan['id']] += $total;
 }
+
+// Tampilkan Total untuk Produk ini (baris)
+$html .= '<td class="bold">' . $total_per_uji . '</td>';
+$grand_total_keseluruhan += $total_per_uji;
+
+$html .= '</tr>';
+}
+
+// Tambahkan baris Grand Total di bagian bawah
+$html .= '<tr>';
+$html .= '<td class="bold text-left header-cell">TOTAL</td>';
+foreach ($all_hewan_unfiltered as $hewan) {
+ // Tampilkan total per jenis hewan (kolom)
+$html .= '<td class="bold">' . $grand_total_per_hewan[$hewan['id']] . '</td>';
+}
+// Tampilkan grand total keseluruhan
+$html .= '<td class="bold">' . $grand_total_keseluruhan . '</td>'; 
+$html .= '</tr>';
+
 $html .= '</table>';
 
 $html .= '<div style="page-break-before: always;"></div>';
