@@ -217,20 +217,28 @@ class AnimalHandler
             $count = $count_stmt->fetch(PDO::FETCH_ASSOC);
             $no_order = 'ORD' . str_pad($count['total'] + 1, 6, '0', STR_PAD_LEFT);
 
-            // PERBAIKAN: Generate no_karantina
+            // Logic Generate no_karantina - Reset Per Bulan (yang juga reset per tahun)
             $date = new DateTime($tanggal_datang);
             $day = $date->format('j');
-            $month = get_roman_month($date->format('n'));
+            $month_num = $date->format('n'); // Bulan numerik (1-12)
+            $month = get_roman_month($month_num); // Bulan Romawi
             $year = $date->format('Y');
 
-            // Kueri baru: Hitung jumlah pemesanan di tahun ini
-            $seq_query = "SELECT COUNT(*) as total FROM pemesanan_kandang WHERE YEAR(tanggal_datang) = :year";
+            // Kueri baru: Hitung jumlah pemesanan yang terjadi pada BULAN DAN TAHUN yang sama.
+            $seq_query = "SELECT COUNT(*) as total 
+              FROM pemesanan_kandang 
+              WHERE YEAR(tanggal_datang) = :year AND MONTH(tanggal_datang) = :month"; // <-- Kondisi filter ganda
+
             $seq_stmt = $this->conn->prepare($seq_query);
             $seq_stmt->bindParam(':year', $year);
+            $seq_stmt->bindParam(':month', $month_num);
             $seq_stmt->execute();
             $seq = $seq_stmt->fetch(PDO::FETCH_ASSOC);
+
+            // Urutan dimulai dari 1 untuk bulan dan tahun ini
             $sequence = $seq['total'] + 1;
 
+            // Format: [Sequence]/Q/[Kode Hewan]/DUH/[Hari]/[Bulan Romawi]/[Tahun]
             $no_karantina = $sequence . '/Q/' . $animal['kode_awal'] . '/DUH/' . $day . '/' . $month . '/' . $year;
 
             $check_query = "SELECT id FROM pemesanan_kandang WHERE no_pesanan = :no_pesanan";
@@ -795,7 +803,6 @@ class AnimalHandler
 
             $this->conn->commit();
             return ['success' => true, 'message' => 'Status berhasil diperbarui.'];
-
         } catch (PDOException $e) {
             $this->conn->rollBack();
             return ['success' => false, 'message' => 'Database error: ' . $e->getMessage()];
